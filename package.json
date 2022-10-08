@@ -1,0 +1,24 @@
+{
+  "name": "cfs2022ii",
+  "version": "1.0.0",
+  "description": "se guardaran los ejercicios de la carrera full stack Ayacucho",
+  "main": "index.js",
+  "scripts": {
+    "convertir": "tsc clase4.ts",
+    "ejecutar": "node clase4.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rgasali/CFS2022II.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rgasali/CFS2022II/issues"
+  },
+  "homepage": "https://github.com/rgasali/CFS2022II#readme",
+  "dependencies": {
+    "@types/node": "^18.7.23",
+    "readline-sync": "^1.4.10"
+  }
+}
