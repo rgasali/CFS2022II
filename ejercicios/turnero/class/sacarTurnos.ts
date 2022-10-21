@@ -8,9 +8,10 @@ import Paciente from './Paciente'
 import Turno from './Turno'
 
 
-let doctores:GestorDeArchivos= new GestorDeArchivos('/archivosTxt/medicos.txt')
-let listaDeDoctores:Array<Medico>;
-let medico1
+let doctores:GestorDeArchivos= new GestorDeArchivos('./archivosTxt/medicos.txt')
+let listaDeDoctores:Array<Medico>=[];
+
+
 
 //crear paciente 
 
@@ -25,23 +26,46 @@ return nuevoPaciente;
 
 }
 
-//sacar Turno
-let numeroDeTurno:number=0;
+//crear doctores
 
-function sacarTurno(){
-    let miTurno:number=numeroDeTurno+1;
-    let medico:Medico= readlineSync.question("")
-    let paciente:Paciente;
-    let horario:Horario;  
-
-
-    //medico
-    //paciente
-    //horario
+function crearDoctores(doctores:string, listaDeDoctores:Array<Medico>){
+let propiedadDoctores= doctores.split(',');
+//nombre,matricula,especialidad
+let nombre:string =propiedadDoctores[0];
+let matricula:number= Number(propiedadDoctores[1]);
+let especialidad:Especialidad= new Especialidad(propiedadDoctores[2]);
+let doctor:Medico= new Medico(nombre,matricula,especialidad);
+listaDeDoctores.push(doctor);
 }
 
 
 
+//sacar Turno
+/*let numeroDeTurno:number=0;
+
+
+function sacarTurno(){
+    let miTurno:number=numeroDeTurno+1;
+        
+    let medico:Medico= readlineSync.question("")
+    let paciente:Paciente;
+    let horario:Horario;  
+
+    //medico
+    //paciente
+    //horario
+}*/
+
+
+
+
+//convierte el archivo txt de medicos en objetos Medico.
+let datosMedicos:GestorDeArchivos= new GestorDeArchivos('medicos.txt');
+for (let i: number = 0; i < datosMedicos.getArregloString().length; i++) {
+    crearDoctores(datosMedicos.getArregloString()[i], listaDeDoctores)
+}
+
+console.log (listaDeDoctores);
 crearPaciente();
 
 
