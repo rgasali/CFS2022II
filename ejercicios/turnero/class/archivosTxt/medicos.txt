@@ -1,0 +1,1 @@
+Martinez,12225,clinico;Perez,24412,cardiologo;Rodriguez,42551,neurologo;Hernandez,99455,pediatra;Lopez,822,clinico
