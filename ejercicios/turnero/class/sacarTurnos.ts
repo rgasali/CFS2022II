@@ -10,35 +10,57 @@ import Turno from './Turno'
 
 let doctores:GestorDeArchivos= new GestorDeArchivos('./archivosTxt/medicos.txt')
 let listaDeDoctores:Array<Medico>=[];
+let listaDeEspecialidades:Array<Especialidad>=[];
 
 
+//crear especialidad:
 
-//crear paciente 
-
-function crearPaciente(){
-let nombre:string= readlineSync.question("Ingrese el nombre del paciente: ");
-let dni:number= readlineSync.question("ingrese el numero de documento del paciente: ");
-let telefono:number= readlineSync.question("ingrese el numero de telefono del paciente: ");
-let obra_social:string= readlineSync.question("ingrese la obra social del paciente: ");
-
-let nuevoPaciente: Paciente= new Paciente(nombre,dni,telefono,obra_social);
-return nuevoPaciente;
-
+function crearEspecialidad(){
+    let nombre:string= readlineSync.question("Ingrese el nombre de la especialidad: ");
+    let nuevaEspecialidad: Especialidad= new Especialidad(nombre);
+    return nuevaEspecialidad;
 }
+
+//agregar especialidad:
+
+function agregarEspecialidad(especialidad:Especialidad, listaDeEspecialidades:Array<Especialidad>){
+listaDeEspecialidades.push(especialidad);
+}
+
 
 //crear doctores
 
-function crearDoctores(doctores:string, listaDeDoctores:Array<Medico>){
+function crearDoctores(doctores:string,especialidadMedica:Especialidad, horarioLaboral:Array<Horario>, listaDeDoctores:Array<Medico>){
 let propiedadDoctores= doctores.split(',');
 //nombre,matricula,especialidad
 let nombre:string =propiedadDoctores[0];
 let matricula:number= Number(propiedadDoctores[1]);
-let especialidad:Especialidad= new Especialidad(propiedadDoctores[2]);
-let horariosDeTrabajo:Array<Horario>= new Array<Horario>();
-let doctor:Medico= new Medico(nombre,matricula,especialidad,horariosDeTrabajo);
+let doctor:Medico= new Medico(nombre,matricula,especialidadMedica,horarioLaboral);
 listaDeDoctores.push(doctor);
 }
 
+//crear paciente 
+
+function crearPaciente(){
+    let nombre:string= readlineSync.question("Ingrese el nombre del paciente: ");
+    let dni:number= readlineSync.question("ingrese el numero de documento del paciente: ");
+    let telefono:number= readlineSync.question("ingrese el numero de telefono del paciente: ");
+    let obra_social:string= readlineSync.question("ingrese la obra social del paciente: ");
+    
+    let nuevoPaciente: Paciente= new Paciente(nombre,dni,telefono,obra_social);
+    return nuevoPaciente;
+    
+    }
+
+
+//listado de especialidades
+
+agregarEspecialidad(crearEspecialidad(),listaDeEspecialidades);
+agregarEspecialidad(crearEspecialidad(),listaDeEspecialidades);
+agregarEspecialidad(crearEspecialidad(),listaDeEspecialidades);
+agregarEspecialidad(crearEspecialidad(),listaDeEspecialidades);
+agregarEspecialidad(crearEspecialidad(),listaDeEspecialidades);
+agregarEspecialidad(crearEspecialidad(),listaDeEspecialidades);
 
 //sacar Turno
 /*let numeroDeTurno:number=0;
@@ -170,13 +192,32 @@ let horariosOretto: Array<Horario>=horarios.filter(function(Horario){
 
     })
 
-crearDoctores(`Gimenez,4040,kinesiologo,${horariosGimenez}`,listaDeDoctores,);
-crearDoctores(`Raimundo,4018122,clinico,${horariosRaimundo}`,listaDeDoctores,);
-crearDoctores(`Bilardo,1986,ginecologo,${horariosBilardo}`,listaDeDoctores,);
-crearDoctores(`Malito,2129,gastronterologo,${horariosMalito}`,listaDeDoctores,);
-crearDoctores(`Perez,19226,clinico,${horariosPerez}`,listaDeDoctores,);
-crearDoctores(`Martinez,14586,obstetra,${horariosMartinez}`,listaDeDoctores,);
-crearDoctores(`Oretto,99099,neurologo,${horariosOretto}`,listaDeDoctores,);
+    
+//mostrar horarios disponibles
+
+function mostrarDisponibilidad(doctor:Medico){
+    for (let i=0; i>doctor.getHorarios.length;i++){
+   return console.log(`${doctor.getHorarios()[i].getFecha()} ${doctor.getHorarios()[i].getHora()}` )
+}}
+
+
+//seleccionar horario
+function seleccionarHorario(listaDeHorarios:Array<Horario>,dia:string, hora:number){
+    let horarioSeleccionado:Array<Horario>=listaDeHorarios.filter(function(Horario){
+       
+        return Horario.getFecha()=== dia &&
+               Horario.getHora()=== hora
+    })
+}
+   
+
+crearDoctores("Gimenez,4040",listaDeEspecialidades[0],horariosGimenez,listaDeDoctores);
+crearDoctores("Raimundo,4018122",listaDeEspecialidades[1],horariosRaimundo,listaDeDoctores);
+crearDoctores("Bilardo,1986",listaDeEspecialidades[2],horariosBilardo,listaDeDoctores);
+crearDoctores("Malito,2129",listaDeEspecialidades[3],horariosMalito,listaDeDoctores);
+crearDoctores("Perez,19226",listaDeEspecialidades[1],horariosPerez,listaDeDoctores);
+crearDoctores("Martinez,1458",listaDeEspecialidades[4],horariosMartinez,listaDeDoctores);
+crearDoctores("Oretto,99099",listaDeEspecialidades[5],horariosOretto,listaDeDoctores);
 
 
 
@@ -185,22 +226,38 @@ crearDoctores(`Oretto,99099,neurologo,${horariosOretto}`,listaDeDoctores,);
 console.log (listaDeDoctores);
 
 //crearPaciente();
-console.log("con que especialista desea sacar turno?")
+
+function sacarTurno(){
 
 
-let buscoEspecialista:string=readlineSync.question('ingrese la especialidad del medico: ')
+    console.log("con que especialista desea sacar turno?")
 
-let listadoPorEspecialistas: Array<Medico>=listaDeDoctores.filter(function(Medico){
+    let buscoEspecialista:string=readlineSync.question('ingrese la especialidad del medico: ')
+
+    let listadoPorEspecialistas: Array<Medico>=listaDeDoctores.filter(function(Medico){
     
-return Medico.getEspecialidad().getNombre()=== buscoEspecialista;
-}) 
+        return Medico.getEspecialidad().getNombre()=== buscoEspecialista;
+    }) 
+
+    console.log(`los doctores disponibles son: ${listadoPorEspecialistas[0].getNombre()}
+    ${listadoPorEspecialistas[0].getMatricula()} 
+    ${listadoPorEspecialistas[0].getEspecialidad().getNombre()}` );
+
+    console.log(" los horarios disponibles son:");
+
+    for(let i= 0; i>listadoPorEspecialistas.length; i++){
+       mostrarDisponibilidad(listadoPorEspecialistas[0])
+    }
+
+    let dia: string= readlineSync.question('ingrese el dia:');
+    let hora: number= readlineSync.question('ingrese la hora:');
+
+    console.log(`la fecha seleccionada es ${seleccionarHorario(listadoPorEspecialistas[0].getHorarios(),dia,hora)}`)
+
+}
 
 
-
-console.log(listadoPorEspecialistas);
-console.log(listadoPorEspecialistas[0].getHorarios()[0].getFecha())
-console.log(listadoPorEspecialistas[0].getHorarios()[0].getHora())
-
+sacarTurno();
 
 
 
