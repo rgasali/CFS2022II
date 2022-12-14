@@ -1,0 +1,30 @@
+.libros {
+    width: 35%;
+    height: 70vh;
+    border: solid thick brown;
+    padding-top: 2%;
+    
+
+}
+
+.tarjetaLibro{
+    font-size: 1rem;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;   
+}
+
+.tarjetaLibro span{
+    padding-top: 3%;
+}
+
+#inputLibro{
+    margin-left: 12%;
+}
+
+
+.tarjetaLibro img{
+    width: 180px;
+    height: 284px;
+}

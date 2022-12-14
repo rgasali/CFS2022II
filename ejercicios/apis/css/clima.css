@@ -1,0 +1,31 @@
+body{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+
+.clima{
+    width: 30vw;
+    height: auto;
+    border: thick solid rgb(75, 102, 133);
+    background-color: rgb(120, 150, 185);
+    border-radius: 4px;
+    padding: 1%;
+    
+}
+
+.climaSpan{
+    
+    animation-name: spanDeClima;
+    animation-duration: 2s;
+}
+
+@keyframes spanDeClima {
+    0%{opacity: 0; }
+    50%{opacity: 0;}
+    100%{opacity: 1;}
+
+}
+
+

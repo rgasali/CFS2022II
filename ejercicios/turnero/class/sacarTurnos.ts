@@ -315,8 +315,19 @@ function sacarTurno(){
     `)
 }
 
+class NumeroInvalido extends Error{
+    public constructor(message?:string){
+        super(message),
+        this.name="NumeroInvalido";
+    }
+}
 
-
+class FaltaComa extends Error{
+    public constructor(message?:string){
+        super(message),
+        this.name="FaltaComa";
+    }
+}
 
 function seleccionarOpcion(){
     let numero=Number(readlineSync.question(`seleccione una de las siguientes opciones:
@@ -326,13 +337,25 @@ function seleccionarOpcion(){
         4 para sacar un turno
         5 para salir del programa`))
 
-    if (numero===1){
+    if (numero<1 || numero>5){
+       
+        throw new NumeroInvalido("el valor marcado no esta dentro de las opciones");
+                 
+    }
+    else if(Number.isNaN(numero) ){
+        throw new Error("el valor ingresado no es un numero");
+    }
+
+    else if (numero===1){
         agregarEspecialidad(crearEspecialidad(readlineSync.question("Ingrese el nombre de la especialidad: ")),listaDeEspecialidades);
         seleccionarOpcion()
     }
 
     else if (numero===2){
         let nombreYMatricula:string=readlineSync.question("ingrese el nombre del medico y la matricula separados por una coma (,)");
+            if(nombreYMatricula.includes(",")===false){
+                throw new FaltaComa ("debe separar el nombre de la matricula mediante una coma ");
+            }
         let buscoEspecialidad:string=readlineSync.question("ingrese el nombre de la especialidad");
         let especialidadSeleccionada:Especialidad=buscarEspecialidad(buscoEspecialidad);
            
@@ -355,11 +378,22 @@ function seleccionarOpcion(){
         seleccionarOpcion()
     }
 
+    
     else(console.log("muchas gracias por usar nuestro programa"))
 } 
 
+try{
+    seleccionarOpcion() 
+}
+catch(error){
 
-seleccionarOpcion()
+    console.log(error.name)
+    console.log(error.message);
+    
+   
+
+}
+finally{seleccionarOpcion()}
 
 
 
