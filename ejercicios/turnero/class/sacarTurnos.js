@@ -1,4 +1,19 @@
 "use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 exports.__esModule = true;
 var readlineSync = require("readline-sync");
 var Especialidad_1 = require("./Especialidad");
@@ -235,14 +250,43 @@ function sacarTurno() {
     }
     console.log("su turno es:\n    numero de turno: ".concat(numeroDeTurno, "\n    dia: ").concat(horarioSeleccionado[0].getFecha(), "\n    hora: ").concat(horarioSeleccionado[0].getHora(), "\n    doctor: ").concat(listadoPorEspecialistas[0].getNombre(), "\n    especialidad: ").concat(listadoPorEspecialistas[0].getEspecialidad().getNombre(), "\n    matricula: ").concat(listadoPorEspecialistas[0].getMatricula(), "\n    nombre del paciente: ").concat(listaDePacientes[listaDePacientes.length - 1].getNombre(), "\n    obra social: ").concat(listaDePacientes[listaDePacientes.length - 1].getObraSocial(), "\n    dni paciente: ").concat(listaDePacientes[listaDePacientes.length - 1].getDni(), "\n    telefono paciente: ").concat(listaDePacientes[listaDePacientes.length - 1].getTelefono(), "\n    "));
 }
+var NumeroInvalido = /** @class */ (function (_super) {
+    __extends(NumeroInvalido, _super);
+    function NumeroInvalido(message) {
+        var _this = this;
+        _this = _super.call(this, message) || this,
+            _this.name = "NumeroInvalido";
+        return _this;
+    }
+    return NumeroInvalido;
+}(Error));
+var FaltaComa = /** @class */ (function (_super) {
+    __extends(FaltaComa, _super);
+    function FaltaComa(message) {
+        var _this = this;
+        _this = _super.call(this, message) || this,
+            _this.name = "FaltaComa";
+        return _this;
+    }
+    return FaltaComa;
+}(Error));
 function seleccionarOpcion() {
     var numero = Number(readlineSync.question("seleccione una de las siguientes opciones:\n        1 para crear una nueva especialidad\n        2 para crear un nuevo medico\n        3 para crear un nuevo paciente\n        4 para sacar un turno\n        5 para salir del programa"));
-    if (numero === 1) {
+    if (numero < 1 || numero > 5) {
+        throw new NumeroInvalido("el valor marcado no esta dentro de las opciones");
+    }
+    else if (Number.isNaN(numero)) {
+        throw new Error("el valor ingresado no es un numero");
+    }
+    else if (numero === 1) {
         agregarEspecialidad(crearEspecialidad(readlineSync.question("Ingrese el nombre de la especialidad: ")), listaDeEspecialidades);
         seleccionarOpcion();
     }
     else if (numero === 2) {
         var nombreYMatricula = readlineSync.question("ingrese el nombre del medico y la matricula separados por una coma (,)");
+        if (nombreYMatricula.includes(",") === false) {
+            throw new FaltaComa("debe separar el nombre de la matricula mediante una coma ");
+        }
         var buscoEspecialidad = readlineSync.question("ingrese el nombre de la especialidad");
         var especialidadSeleccionada = buscarEspecialidad(buscoEspecialidad);
         var horarioNuevoMedico = crearHorariosMedicos(readlineSync.question("ingrese los dias que trabaja el medico separados por una coma (',')"), Number(readlineSync.question("ingrese el horario de inicio (debe ser a partir de las 8 en adelante")), Number(readlineSync.question("ingrese el horario de finalizacion (debe ser a hasta las 18 o menor")), horarios);
@@ -260,4 +304,13 @@ function seleccionarOpcion() {
     else
         (console.log("muchas gracias por usar nuestro programa"));
 }
-seleccionarOpcion();
+try {
+    seleccionarOpcion();
+}
+catch (error) {
+    console.log(error.name);
+    console.log(error.message);
+}
+finally {
+    seleccionarOpcion();
+}

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/clima.css">
+    <link rel="stylesheet" href="../css/libros.css">
+    <title>Ejercicios Apid</title>
+</head>
+<body>
+    <h1>Ejercicios Api</h1>
+    <div class="clima">
+        <input id="inputCiudad" type="text" placeholder="ingrese la ciudad">
+        <button id="botonBuscar">buscar</button>
+        <div class="ventanaResultados">
+            <p>ciudad <span id="ciudad"></span></p>
+            <p>temperatura <span id="temperatura"></span></p>
+            <p>min <span id="tempMin"></span></p>
+            <p>max <span id="tempMax"></span></p>
+            <p>sensacion termica <span id="termica"></span></p>
+            <p>Humedad <span id="humedad"></span></p>
+            <p>presion <span id="presion"></span></p>
+            <p>velocidad del viento <span id="velocidadViento"></span></p>
+            <p>direccion del viento <span id="direccionViento"></span></p>
+            <p>nubosidad <span id="nubosidad"></span></p>
+
+        </div>
+    </div>
+    <br><br><br><br>
+    <div class="libros">
+        <input type="text" id="inputLibro" placeholder="ingrese el libro a buscar 🔎">
+        <button id="botonBuscarLibro">buscar</button>
+        <div class="resultadosLibro">
+            <div class="tarjetaLibro">
+                <span id="nombreLibro"></span>
+                <span id="spanImagenLibro"><img id="imagenLibro" src="" ></span>
+                <span id="escritor"></span>
+                <span id="genero"></span>
+                <span id="publicacion"></span>
+            </div>
+        </div>
+    </div>
+<br><br><br><br><br><br><br><br><br><br>
+</body>
+<script src="../ts/api.ts"></script>
+</html>
